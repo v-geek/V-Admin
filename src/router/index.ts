@@ -6,7 +6,7 @@ import { usePermissionStore } from '@/store/modules/permission'
 import { basicRouter } from '@/router/modules/basic'
 
 // 引入 views 文件夹下所有 vue 文件
-const modules = import.meta.glob('@/views/**/*.vue')
+const modules = import.meta.glob('@/views/**/*.{vue,tsx}')
 
 // const whiteList = []
 
@@ -42,7 +42,9 @@ function initRouter() {
     item.children && delete item.children
 
     if (item.component && typeof item.component == 'string') {
-      item.component = modules['/src/views' + item.component + '.vue']
+      item.component = 
+        modules['/src/views' + item.component + '.vue'] ??
+        modules['/src/views' + item.component + '.tsx']
     }
 
     if (item.meta.isFull) {
